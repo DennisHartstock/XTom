@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ChooseModeScreen() {
+fun ChooseModeScreen(onModeSelected: (String) -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -57,7 +57,7 @@ fun ChooseModeScreen() {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    ModeCard("Wizard", "*", {}) // Placeholder icon
+                    ModeCard("Wizard", "*", { onModeSelected("Wizard") }) // Placeholder icon
                     ModeCard("Classic", ">", {}) // Placeholder icon
                     ModeCard("R & D", "X", {}) // Placeholder icon
                 }
