@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.example.project.ui.ChooseModeScreen
+import org.example.project.ui.ClassicScreen
 import org.example.project.ui.WizardScreen
 import org.example.project.ui.theme.XTomTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -13,6 +14,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 sealed class Screen {
     data object ChooseMode : Screen()
     data object Wizard : Screen()
+    data object Classic : Screen()
 }
 
 @Composable
@@ -25,8 +27,9 @@ fun App() {
             is Screen.ChooseMode -> {
                 ChooseModeScreen(
                     onModeSelected = { mode ->
-                        if (mode == "Wizard") {
-                            currentScreen = Screen.Wizard
+                        when (mode) {
+                            "Wizard" -> currentScreen = Screen.Wizard
+                            "Classic" -> currentScreen = Screen.Classic
                         }
                     }
                 )
@@ -34,6 +37,10 @@ fun App() {
 
             is Screen.Wizard -> {
                 WizardScreen()
+            }
+
+            is Screen.Classic -> {
+                ClassicScreen()
             }
         }
     }

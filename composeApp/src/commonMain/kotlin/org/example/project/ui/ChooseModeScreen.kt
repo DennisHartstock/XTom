@@ -58,7 +58,7 @@ fun ChooseModeScreen(onModeSelected: (String) -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
                     ModeCard("Wizard", "*", { onModeSelected("Wizard") }) // Placeholder icon
-                    ModeCard("Classic", ">", {}) // Placeholder icon
+                    ModeCard("Classic", ">", { onModeSelected("Classic") }) // Placeholder icon
                     ModeCard("R & D", "X", {}) // Placeholder icon
                 }
 
