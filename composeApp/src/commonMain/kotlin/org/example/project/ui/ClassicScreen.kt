@@ -17,29 +17,48 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+private enum class ClassicPanelType {
+    GENERATOR,
+    DETECTOR,
+    SPECIMEN_MANIPULATOR,
+    CT_SCAN
+}
 
 @Composable
 fun ClassicScreen(onBack: () -> Unit) {
+    var selectedPanel by remember { mutableStateOf(ClassicPanelType.GENERATOR) }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TopStatusBar(onBack = onBack)
+            TopStatusBar(
+                onBack = onBack,
+                selectedPanel = selectedPanel,
+                onPanelSelected = { selectedPanel = it }
+            )
             ControlBar()
             Row(modifier = Modifier.fillMaxWidth().weight(1f).padding(8.dp)) {
                 Column(
@@ -71,14 +90,28 @@ fun ClassicScreen(onBack: () -> Unit) {
                     }
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                GeneratorPanel(modifier = Modifier.weight(1f))
+                when (selectedPanel) {
+                    ClassicPanelType.GENERATOR -> GeneratorPanel(modifier = Modifier.weight(1f))
+                    ClassicPanelType.DETECTOR -> DetectorPanel(modifier = Modifier.weight(1f))
+                    ClassicPanelType.SPECIMEN_MANIPULATOR -> SpecimenManipulatorPanel(
+                        modifier = Modifier.weight(
+                            1f
+                        )
+                    )
+
+                    ClassicPanelType.CT_SCAN -> CTScanPanel(modifier = Modifier.weight(1f))
+                }
             }
         }
     }
 }
 
 @Composable
-private fun TopStatusBar(onBack: () -> Unit) {
+private fun TopStatusBar(
+    onBack: () -> Unit,
+    selectedPanel: ClassicPanelType,
+    onPanelSelected: (ClassicPanelType) -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -87,10 +120,30 @@ private fun TopStatusBar(onBack: () -> Unit) {
         IconButton(onClick = onBack) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
-        StatusCard("GENERATOR", modifier = Modifier.weight(1f))
-        StatusCard("DETECTOR", modifier = Modifier.weight(1f))
-        StatusCard("SPECIMEN MANIPULATOR", modifier = Modifier.weight(1.5f))
-        StatusCard("CT SCAN", modifier = Modifier.weight(1f))
+        StatusCard(
+            "GENERATOR",
+            isSelected = selectedPanel == ClassicPanelType.GENERATOR,
+            onClick = { onPanelSelected(ClassicPanelType.GENERATOR) },
+            modifier = Modifier.weight(1f)
+        )
+        StatusCard(
+            "DETECTOR",
+            isSelected = selectedPanel == ClassicPanelType.DETECTOR,
+            onClick = { onPanelSelected(ClassicPanelType.DETECTOR) },
+            modifier = Modifier.weight(1f)
+        )
+        StatusCard(
+            "SPECIMEN MANIPULATOR",
+            isSelected = selectedPanel == ClassicPanelType.SPECIMEN_MANIPULATOR,
+            onClick = { onPanelSelected(ClassicPanelType.SPECIMEN_MANIPULATOR) },
+            modifier = Modifier.weight(1.5f)
+        )
+        StatusCard(
+            "CT SCAN",
+            isSelected = selectedPanel == ClassicPanelType.CT_SCAN,
+            onClick = { onPanelSelected(ClassicPanelType.CT_SCAN) },
+            modifier = Modifier.weight(1f)
+        )
         Button(
             onClick = {},
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
@@ -100,9 +153,21 @@ private fun TopStatusBar(onBack: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StatusCard(title: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
+private fun StatusCard(
+    title: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+        )
+    ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(text = title, style = MaterialTheme.typography.labelSmall)
             Spacer(modifier = Modifier.height(4.dp))
@@ -159,3 +224,74 @@ private fun GeneratorPanel(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+private fun DetectorPanel(modifier: Modifier = Modifier) {
+    Card(modifier = modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Text(
+                "DETECTOR",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Camera Mode Selection")
+            OutlinedTextField(
+                value = "Text",
+                onValueChange = {},
+                readOnly = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Detector Settings")
+            // Add your detector settings here
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Detector Calibration")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Optimize exposure")
+                Spacer(modifier = Modifier.weight(1f))
+                Switch(checked = false, onCheckedChange = {})
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Dark correction")
+                Spacer(modifier = Modifier.weight(1f))
+                Switch(checked = true, onCheckedChange = {})
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Bright correction")
+                Spacer(modifier = Modifier.weight(1f))
+                Switch(checked = true, onCheckedChange = {})
+            }
+            Button(onClick = {}) { Text("Start calibration") }
+            OutlinedButton(onClick = {}) { Text("Details") }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Bad Pixel Mapping")
+            Button(onClick = {}) { Text("Start bad pixel mapping") }
+        }
+    }
+}
+
+@Composable
+fun SpecimenManipulatorPanel(modifier: Modifier = Modifier) {
+    Card(modifier = modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Text(
+                "SPECIMEN MANIPULATOR",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+fun CTScanPanel(modifier: Modifier = Modifier) {
+    Card(modifier = modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Text(
+                "CT SCAN",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
