@@ -25,29 +25,30 @@ fun App() {
     XTomTheme {
         var currentScreen by remember { mutableStateOf<Screen>(Screen.ChooseMode) }
 
-        when (currentScreen) {
+        when (val screen = currentScreen) {
             is Screen.ChooseMode -> {
                 ChooseModeScreen(
                     onModeSelected = { mode ->
-                        when (mode) {
-                            "Wizard" -> currentScreen = Screen.Wizard
-                            "Classic" -> currentScreen = Screen.Classic
-                            "R & D" -> currentScreen = Screen.RnD
+                        currentScreen = when (mode) {
+                            "Wizard" -> Screen.Wizard
+                            "Classic" -> Screen.Classic
+                            "R & D" -> Screen.RnD
+                            else -> screen
                         }
                     }
                 )
             }
 
             is Screen.Wizard -> {
-                WizardScreen()
+                WizardScreen(onBack = { currentScreen = Screen.ChooseMode })
             }
 
             is Screen.Classic -> {
-                ClassicScreen()
+                ClassicScreen(onBack = { currentScreen = Screen.ChooseMode })
             }
 
             is Screen.RnD -> {
-                RnDScreen()
+                RnDScreen(onBack = { currentScreen = Screen.ChooseMode })
             }
         }
     }

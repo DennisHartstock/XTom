@@ -14,9 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -35,7 +39,7 @@ data class RecentFile(
 )
 
 @Composable
-fun WizardScreen() {
+fun WizardScreen(onBack: () -> Unit) {
     val recentFiles = listOf(
         RecentFile("Document Name", "3 hours ago"),
         RecentFile("Document Name", "3 hours ago"),
@@ -63,11 +67,17 @@ fun WizardScreen() {
                     .fillMaxSize()
                     .padding(32.dp)
             ) {
-                Text(
-                    text = "Welcome, User Name",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = "Welcome, User Name",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = {}) {
                     Text("New File")

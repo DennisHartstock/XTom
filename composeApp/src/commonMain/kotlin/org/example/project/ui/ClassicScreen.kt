@@ -12,9 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -29,13 +33,13 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ClassicScreen() {
+fun ClassicScreen(onBack: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TopStatusBar()
+            TopStatusBar(onBack = onBack)
             ControlBar()
             Row(modifier = Modifier.fillMaxWidth().weight(1f).padding(8.dp)) {
                 Column(
@@ -74,12 +78,15 @@ fun ClassicScreen() {
 }
 
 @Composable
-private fun TopStatusBar() {
+private fun TopStatusBar(onBack: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        IconButton(onClick = onBack) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+        }
         StatusCard("GENERATOR", modifier = Modifier.weight(1f))
         StatusCard("DETECTOR", modifier = Modifier.weight(1f))
         StatusCard("SPECIMEN MANIPULATOR", modifier = Modifier.weight(1.5f))
