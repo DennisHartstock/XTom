@@ -22,7 +22,9 @@ sealed class Screen {
 @Composable
 @Preview
 fun App() {
-    XTomTheme {
+    var themeMode by remember { mutableStateOf(ThemeMode.System) }
+
+    XTomTheme(themeMode) {
         var currentScreen by remember { mutableStateOf<Screen>(Screen.ChooseMode) }
 
         when (val screen = currentScreen) {
@@ -35,7 +37,9 @@ fun App() {
                             "R & D" -> Screen.RnD
                             else -> screen
                         }
-                    }
+                    },
+                    currentTheme = themeMode,
+                    onThemeChange = { themeMode = it }
                 )
             }
 

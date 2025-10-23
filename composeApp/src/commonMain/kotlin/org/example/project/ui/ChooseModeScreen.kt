@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.example.project.ThemeMode
 
 @Composable
-fun ChooseModeScreen(onModeSelected: (String) -> Unit) {
+fun ChooseModeScreen(
+    onModeSelected: (String) -> Unit,
+    currentTheme: ThemeMode,
+    onThemeChange: (ThemeMode) -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -45,12 +52,28 @@ fun ChooseModeScreen(onModeSelected: (String) -> Unit) {
                     .padding(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Choose a Mode",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Start)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Choose a Mode",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        ThemeMode.entries.forEach { theme ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                RadioButton(
+                                    selected = currentTheme == theme,
+                                    onClick = { onThemeChange(theme) }
+                                )
+                                Text(text = theme.name)
+                            }
+                        }
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(32.dp))
 
