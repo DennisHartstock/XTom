@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -275,10 +278,44 @@ fun SpecimenManipulatorPanel(modifier: Modifier = Modifier) {
     Card(modifier = modifier.fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Text(
-                "SPECIMEN MANIPULATOR",
+                "TRAJECTORIES",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                    TrajectoryCard("Add CT", modifier = Modifier.weight(1f))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TrajectoryCard(name: String, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.aspectRatio(1f)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Refresh, // Placeholder icon
+                contentDescription = name,
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(name, style = MaterialTheme.typography.bodySmall)
         }
     }
 }
