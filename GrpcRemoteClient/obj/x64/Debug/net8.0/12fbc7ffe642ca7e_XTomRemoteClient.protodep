@@ -1,0 +1,4 @@
+obj\x64\Debug\net8.0\Protos/XTomRemoteClient.cs \
+obj\x64\Debug\net8.0\Protos/XTomRemoteClientGrpc.cs: C:/Users/Hartstock/.nuget/packages/grpc.tools/2.67.0/build/native/include/google/protobuf/empty.proto\
+ C:/Users/Hartstock/.nuget/packages/grpc.tools/2.67.0/build/native/include/google/protobuf/timestamp.proto\
+ Protos/XTomRemoteClient.proto

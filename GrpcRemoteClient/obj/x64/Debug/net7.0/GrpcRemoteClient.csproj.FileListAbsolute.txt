@@ -1,0 +1,16 @@
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\bin\x64\Debug\net7.0\GrpcRemoteClient.deps.json
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\bin\x64\Debug\net7.0\GrpcRemoteClient.dll
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\bin\x64\Debug\net7.0\GrpcRemoteClient.pdb
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\bin\x64\Debug\net7.0\XTom Studio.Core.dll
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\bin\x64\Debug\net7.0\XTom Studio.Core.pdb
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.csproj.AssemblyReference.cache
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.AssemblyInfoInputs.cache
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.AssemblyInfo.cs
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.csproj.CoreCompileInputs.cache
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.sourcelink.json
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemo.0836746E.Up2Date
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.dll
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\refint\GrpcRemoteClient.dll
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\GrpcRemoteClient.pdb
+C:\Users\Hartstock\Source\Repos\XTom Studio\GrpcRemoteClient\obj\x64\Debug\net7.0\ref\GrpcRemoteClient.dll

@@ -23,6 +23,10 @@ navigationRuntimeKtx = "2.8.2"
 material3Jvmstubs = "1.4.0-alpha01"
 core = "1.13.1"
 
+grpc = "1.62.2"
+protobuf = "3.25.3"
+protobufPlugin = "0.9.4"
+
 [libraries]
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationRuntimeKtx" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -48,6 +52,10 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 androidx-material3-jvmstubs = { group = "androidx.compose.material3", name = "material3-jvmstubs", version.ref = "material3Jvmstubs" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
+grpc-kotlin-stub = { group = "io.grpc", name = "grpc-stub", version.ref = "grpc" }
+grpc-okhttp = { group = "io.grpc", name = "grpc-okhttp", version.ref = "grpc" }
+protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin", version.ref = "protobuf" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -56,3 +64,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }

@@ -1,0 +1,296 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "XTomRemoteClient";
+
+package XTomRemote;
+
+// The service definition.
+service XTomRemote {
+  // Functions form XTom 1.X to XTomGrpcService
+  rpc Heartbeat (google.protobuf.Empty) returns (HeartbeatResponse);
+  rpc SetMonitorValueUpdates (MonitorValueDescription) returns (google.protobuf.Empty);
+  rpc SetMonitorValue (stream MonitorValueDescription) returns (stream MonitorValueRequest);
+  rpc ExecuteXTomCommand (stream ExecuteCommandResponse) returns (stream ExecuteCommandRequest);
+  rpc RunXTomMeasurement (stream RunMeasurementResponse) returns (stream RunMeasurementRequest);
+  rpc SetDetectorStream (DetectorStreamResponse) returns (google.protobuf.Empty);
+  rpc SetSystemConfiguration (SystemConfigurationResponse) returns (google.protobuf.Empty);
+
+  // Functions for XTom Studio and Pytom
+  rpc GetMonitorValueUpdates (google.protobuf.Empty) returns (stream MonitorValueDescription);
+  rpc GetMonitorValue (MonitorValueRequest) returns (MonitorValueDescription);
+  rpc ExecuteCommand (ExecuteCommandRequest) returns (ExecuteCommandResponse);
+  rpc RunMeasurement (RunMeasurementRequest) returns (stream RunMeasurementResponse);
+  rpc GetDetectorStream (google.protobuf.Empty) returns (stream DetectorStreamResponse);
+  rpc GetSystemConfiguration (google.protobuf.Empty) returns (SystemConfigurationResponse);
+}
+
+message HeartbeatResponse {
+  bool is_alive = 1;
+}
+
+message MonitorValueDescription {
+  string device_id = 1;
+  string monitor_name = 2;
+  oneof data {
+	MonitorValueDouble monitor_value_double = 3;
+	MonitorValueFloat monitor_value_float = 4;
+	MonitorValueInt32 monitor_value_int32 = 5;
+	MonitorValueInt64 monitor_value_int64 = 6;
+	MonitorValueUInt32 monitor_value_uint32 = 7;
+	MonitorValueUInt64 monitor_value_uint64 = 8;
+	MonitorValueBool monitor_value_bool = 9;
+	MonitorValueString monitor_value_string = 10;
+	MonitorValueDeviceState monitor_value_device_state = 11;
+	MonitorValueWarmupState monitor_value_warmup_state = 12;
+  }
+}
+
+message MonitorValueRequest {
+  string device_id = 1;
+  string monitor_name = 2;
+}
+
+// MonitorValues
+message MonitorValueDouble {
+	double value = 1;
+	double value_setpoint = 2;
+	double min_value = 3;
+	double max_value = 4;
+	double physical_min_value = 5;
+	double physical_max_value = 6;
+}
+
+message MonitorValueFloat {
+	float value = 1;
+	float value_setpoint = 2;
+	float min_value = 3;
+	float max_value = 4;
+	float physical_min_value = 5;
+	float physical_max_value = 6;
+}
+
+message MonitorValueInt32 {
+	int32 value = 1;
+	int32 value_setpoint = 2;
+	int32 min_value = 3;
+	int32 max_value = 4;
+	int32 physical_min_value = 5;
+	int32 physical_max_value = 6;
+}
+
+message MonitorValueInt64 {
+	int64 value = 1;
+	int64 value_setpoint = 2;
+	int64 min_value = 3;
+	int64 max_value = 4;
+	int64 physical_min_value = 5;
+	int64 physical_max_value = 6;
+}
+
+message MonitorValueUInt32 {
+	uint32 value = 1;
+	uint32 value_setpoint = 2;
+	uint32 min_value = 3;
+	uint32 max_value = 4;
+	uint32 physical_min_value = 5;
+	uint32 physical_max_value = 6;
+}
+
+message MonitorValueUInt64 {
+	uint64 value = 1;
+	uint64 value_setpoint = 2;
+	uint64 min_value = 3;
+	uint64 max_value = 4;
+	uint64 physical_min_value = 5;
+	uint64 physical_max_value = 6;
+}
+
+message MonitorValueBool {
+	bool value = 1;
+	bool value_setpoint = 2;
+	bool min_value = 3;
+	bool max_value = 4;
+	bool physical_min_value = 5;
+	bool physical_max_value = 6;
+}
+
+message MonitorValueString {
+	string value = 1;
+	string value_setpoint = 2;
+	string min_value = 3;
+	string max_value = 4;
+	string physical_min_value = 5;
+	string physical_max_value = 6;
+}
+
+message MonitorValueDeviceState {
+	DeviceState value = 1;
+	DeviceState value_setpoint = 2;
+	DeviceState min_value = 3;
+	DeviceState max_value = 4;
+	DeviceState physical_min_value = 5;
+	DeviceState physical_max_value = 6;
+}
+
+message MonitorValueWarmupState {
+	WarmupState value = 1;
+	WarmupState value_setpoint = 2;
+	WarmupState min_value = 3;
+	WarmupState max_value = 4;
+	WarmupState physical_min_value = 5;
+	WarmupState physical_max_value = 6;
+}
+
+message ExecuteCommandResponse {	
+	uint64 request_id = 1;
+	string device_id = 2;
+	string command_name = 3;
+	string error_message_short = 5;
+	string error_message_detailed = 6;
+	google.protobuf.Timestamp executed = 7;
+	google.protobuf.Timestamp finished = 8;
+	DeviceActionReturnValue return_value = 9;
+}
+
+message DeviceActionReturnValue {
+	oneof value {
+		google.protobuf.Empty void_value = 1;
+		double double_value = 2;
+		float float_value = 3;
+		int32 int32_value = 4;
+		int64 int64_value = 5;
+		uint32 uint32_value = 6;
+		uint64 uint64_value = 7;
+		bool bool_value = 8;
+		string string_value = 9;
+		StringArrayValue string_array_value = 10;
+		DetectorStreamResponse image_value = 11;
+	}
+}
+
+message StringArrayValue {
+	repeated string values = 1;
+}
+
+message ExecuteCommandRequest {	
+	uint64 request_id = 1;
+	string device_id = 2;
+	string command_name = 3;
+	repeated DeviceActionParameter parameters = 4;
+}
+
+message RunMeasurementRequest {
+	string sample_name = 1;
+	string project_root_path = 2;
+	string measurement_name = 3;
+	string measurement_configuration = 4;
+	repeated MeasurementParameter input_parameters = 5;
+}
+
+message RunMeasurementResponse {
+	double progress = 1;
+	bool is_finished = 2;
+	string message = 3;
+	string error_message_short = 4;
+	string error_message_detailed = 5;
+	repeated MeasurementParameter output_parameters = 6;
+}
+
+message DeviceActionParameter {
+	oneof value {
+		google.protobuf.Empty void_value = 1;
+		double double_value = 2;
+		float float_value = 3;
+		int32 int32_value = 4;
+		int64 int64_value = 5;
+		uint32 uint32_value = 6;
+		uint64 uint64_value = 7;
+		bool bool_value = 8;
+		string string_value = 9;
+		bytes byte_value = 10;
+	}
+}
+
+message MeasurementParameter {
+	string parameter_name = 1;
+	oneof value {
+		google.protobuf.Empty void_value = 2;
+		double double_value = 3;
+		float float_value = 4;
+		int32 int32_value = 5;
+		int64 int64_value = 6;
+		uint32 uint32_value = 7;
+		uint64 uint64_value = 8;
+		bool bool_value = 9;
+		string string_value = 10;
+		bytes byte_value = 11;
+	}
+}
+
+message DetectorStreamResponse {
+  string device_id = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  ImageDataType data_type = 4;
+  bytes image_data = 5;
+}
+
+enum ImageDataType {
+  IMAGE_DATA_TYPE_UNKNOWN = 0;
+  IMAGE_DATA_TYPE_UINT16 = 1;
+  IMAGE_DATA_TYPE_INT16 = 2;
+  IMAGE_DATA_TYPE_UINT32 = 3;
+  IMAGE_DATA_TYPE_INT32 = 4;
+  IMAGE_DATA_TYPE_FLOAT = 5;
+}
+
+enum DeviceState {
+  DEVICE_NOT_SET = 0;
+  DEVICE_NOT_INITIALIZED = 1;
+  DEVICE_READY = 2;
+  DEVICE_BUSY = 3;
+  DEVICE_ERROR = 4;
+}
+
+enum WarmupState {
+  WARMUP_NONE = 0;
+  WARMUP_READY = 1;
+  WARMUP_RUN = 2;
+  WARMUP_REQUIRED = 3;
+}
+
+message SystemConfigurationResponse {
+  string system_id = 1;
+  string detector_id = 2;
+  string source_id = 3;
+  repeated RemoteDeviceDescription devices = 4;
+  repeated RemoteMeasurementDescription measurements = 5;
+}
+
+message RemoteDeviceDescription {
+  string device_id = 1;
+  string device_type = 2;
+  repeated MonitorValueDescription monitor_values = 3;  
+  repeated DeviceActionDescription device_actions = 4;  
+}
+
+message RemoteMeasurementDescription {
+  string measurement_name = 1;
+  repeated ParameterDescription input_parameters = 2;
+  repeated ParameterDescription output_parameters = 3;
+}
+
+message DeviceActionDescription {
+  string device_id = 1;
+  string command_name = 2;
+  repeated string input_types = 3;
+  repeated string output_types = 4;  
+}
+
+message ParameterDescription {
+	string parameter_name = 1;
+	string parameter_type = 2;
+}
