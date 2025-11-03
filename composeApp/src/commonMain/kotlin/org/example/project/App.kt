@@ -1,6 +1,7 @@
 package org.example.project
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,13 @@ fun App() {
 
     XTomTheme(themeMode) {
         var currentScreen by remember { mutableStateOf<Screen>(Screen.ChooseMode) }
+
+        LaunchedEffect(Unit) {
+            val client = GrpcClient()
+            val isServerAlive = client.checkHeartbeat()
+            println(">>>> Server is alive: $isServerAlive")
+            client.shutdown()
+        }
 
         when (val screen = currentScreen) {
             is Screen.ChooseMode -> {
