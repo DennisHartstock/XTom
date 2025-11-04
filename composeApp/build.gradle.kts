@@ -41,6 +41,7 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir("build/generated/source/proto/commonMain/kotlin")
             kotlin.srcDir("build/generated/source/proto/commonMain/grpckt")
+            kotlin.srcDir("build/generated/source/proto/commonMain/grpc")
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -104,6 +105,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildToolsVersion = "34.0.0"
+
+//    sourceSets {
+//        release.java.srcDirs += "build/generated/source/proto/release/grpc"
+//        main.proto.srcDirs += "src/main/proto"
+//    }
 }
 
 dependencies {
@@ -127,6 +133,9 @@ protobuf {
         artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     plugins {
+        create("javalite") {
+            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+        }
         create("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
         }
@@ -136,12 +145,13 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach { task ->
-            task.plugins {
-                create("grpc")
-                create("grpckt")
-            }
             task.builtins {
                 create("kotlin")
+            }
+            task.plugins {
+                create("javalite")
+                create("grpc")
+                create("grpckt")
             }
         }
     }
