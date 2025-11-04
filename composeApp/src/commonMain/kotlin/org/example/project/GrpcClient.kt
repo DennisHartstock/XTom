@@ -3,8 +3,6 @@ package org.example.project
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 
-//import org.example.project.grpc.XTomRemoteGrpcKt
-
 class GrpcClient {
 
     // Replace with your server's actual host and port
