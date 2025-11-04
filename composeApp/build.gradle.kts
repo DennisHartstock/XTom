@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.proto
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -39,9 +40,8 @@ kotlin {
     
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir("build/generated/source/proto/commonMain/kotlin")
-            kotlin.srcDir("build/generated/source/proto/commonMain/grpckt")
-            kotlin.srcDir("build/generated/source/proto/commonMain/grpc")
+            kotlin.srcDir("build/generated/source/proto/main/kotlin")
+            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -106,10 +106,13 @@ android {
     }
     buildToolsVersion = "34.0.0"
 
-//    sourceSets {
-//        release.java.srcDirs += "build/generated/source/proto/release/grpc"
-//        main.proto.srcDirs += "src/main/proto"
-//    }
+    sourceSets {
+        getByName("main") {
+            proto {
+                srcDir("src/commonMain/proto")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -133,12 +136,6 @@ protobuf {
         artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     plugins {
-        create("javalite") {
-            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
-        }
-        create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
-        }
         create("grpckt") {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:${libs.versions.grpc.get()}:jdk8@jar"
         }
@@ -149,8 +146,6 @@ protobuf {
                 create("kotlin")
             }
             task.plugins {
-                create("javalite")
-                create("grpc")
                 create("grpckt")
             }
         }
