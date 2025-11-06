@@ -6,6 +6,8 @@ import "google/protobuf/timestamp.proto";
 option java_package = "org.example.project.grpc";
 option java_multiple_files = true;
 
+package XTomRemote;
+
 // The service definition.
 service XTomRemote {
   // Functions form XTom 1.X to XTomGrpcService
