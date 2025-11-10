@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.androidApplication) // MUST be applied before kotlinMultiplatform
+    alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
@@ -12,34 +12,17 @@ plugins {
 }
 
 kotlin {
-//    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-//    wasmJs {
-//        browser()
-//        binaries.executable()
-//    }
-    
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
     jvm("desktop")
 
-//    listOf(
-//        iosX64(),
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach { iosTarget ->
-//        iosTarget.binaries.framework {
-//            baseName = "ComposeApp"
-//            isStatic = true
-//        }
-//    }
-    
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir("build/generated/source/proto/main/java")
             kotlin.srcDir("build/generated/source/proto/main/kotlin")
             kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
@@ -53,26 +36,41 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(projects.shared)
-                // gRPC dependencies
+            }
+        }
+
+        val jvmMain by creating {
+            dependsOn(commonMain)
+            kotlin.srcDir("build/generated/source/proto/main/java")
+            kotlin.srcDir("build/generated/source/proto/main/kotlin")
+            kotlin.srcDir("build/generated/source/proto/main/grpckt")
+            dependencies {
                 implementation(libs.grpc.kotlin.stub)
                 implementation(libs.protobuf.kotlin)
             }
         }
 
         val androidMain by getting {
+            dependsOn(jvmMain)
+            kotlin.srcDir("build/generated/source/proto/main/java")
+            kotlin.srcDir("build/generated/source/proto/main/kotlin")
+            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.navigation.compose)
-                implementation(libs.grpc.okhttp) // gRPC transport
+                implementation(libs.grpc.okhttp)
             }
         }
-
         val desktopMain by getting {
+            dependsOn(jvmMain)
+            kotlin.srcDir("build/generated/source/proto/main/java")
+            kotlin.srcDir("build/generated/source/proto/main/kotlin")
+            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutines.swing)
-                implementation(libs.grpc.okhttp) // gRPC transport
+                implementation(libs.grpc.okhttp)
             }
         }
     }
@@ -89,6 +87,7 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -109,7 +108,7 @@ android {
     sourceSets {
         getByName("main") {
             proto {
-                srcDir("src/commonMain/proto")
+                srcDir("src/jvmMain/proto")
             }
         }
     }
@@ -136,17 +135,21 @@ protobuf {
         artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
+        }
         create("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:${libs.versions.grpc.get()}:jdk8@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${libs.versions.protocGrpckt.get()}:jdk8@jar"
         }
     }
     generateProtoTasks {
         all().forEach { task ->
+            task.plugins {
+                create("grpc")
+                create("grpckt")
+            }
             task.builtins {
                 create("kotlin")
-            }
-            task.plugins {
-                create("grpckt")
             }
         }
     }

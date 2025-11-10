@@ -5,7 +5,7 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.example.project.grpc.XTomRemoteGrpcKt
+import org.example.project.grpc.XTomRemoteClientGrpcKt
 
 
 class GrpcClient {
@@ -16,7 +16,7 @@ class GrpcClient {
         .usePlaintext() // Use this for local development without TLS
         .build()
 
-    private val client = XTomRemoteGrpcKt.XTomRemoteCoroutineStub(channel)
+    private val client = XTomRemoteClientGrpcKt.XTomRemoteCoroutineStub(channel)
 
     /**
      * Calls the Heartbeat RPC to check if the server is alive.

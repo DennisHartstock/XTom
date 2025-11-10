@@ -23,7 +23,7 @@ navigationRuntimeKtx = "2.8.2"
 material3Jvmstubs = "1.4.0-alpha01"
 core = "1.13.1"
 
-grpc = "1.62.2"
+grpc = "1.76.0"
 protobuf = "3.25.3"
 protobufPlugin = "0.9.4"
 protocGrpckt = "1.5.0"
