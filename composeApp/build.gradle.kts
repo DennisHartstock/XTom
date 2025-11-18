@@ -22,9 +22,6 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir("build/generated/source/proto/main/java")
-            kotlin.srcDir("build/generated/source/proto/main/kotlin")
-            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -52,9 +49,6 @@ kotlin {
 
         val androidMain by getting {
             dependsOn(jvmMain)
-            kotlin.srcDir("build/generated/source/proto/main/java")
-            kotlin.srcDir("build/generated/source/proto/main/kotlin")
-            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
@@ -64,9 +58,6 @@ kotlin {
         }
         val desktopMain by getting {
             dependsOn(jvmMain)
-            kotlin.srcDir("build/generated/source/proto/main/java")
-            kotlin.srcDir("build/generated/source/proto/main/kotlin")
-            kotlin.srcDir("build/generated/source/proto/main/grpckt")
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutines.swing)

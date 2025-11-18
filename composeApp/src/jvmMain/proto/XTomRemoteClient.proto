@@ -275,7 +275,7 @@ message RemoteDeviceDescription {
   string device_id = 1;
   string device_type = 2;
   repeated MonitorValueDescription monitor_values = 3;
-  repeated DeviceActionDescription device_actions = 4;
+  repeated DeviceActionDescription device_actions = 4;  
 }
 
 message RemoteMeasurementDescription {
@@ -288,7 +288,7 @@ message DeviceActionDescription {
   string device_id = 1;
   string command_name = 2;
   repeated string input_types = 3;
-  repeated string output_types = 4;
+  repeated string output_types = 4;  
 }
 
 message ParameterDescription {
